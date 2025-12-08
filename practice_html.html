@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice HTML</title>
+    <style>
+        h1 {
+          text-align: center;
+        }
+        .story-illustration-container {
+          text-align: center;
+        }
+        .story-illustration {
+          width: 400px;
+          height: auto;
+          max-width: 100%;
+          display: block;
+          margin: 0 auto;
+        }
+        .highlight-words-container {
+          margin-top: 20px;
+          margin-bottom: 30px;
+          display: flex;
+          gap: 10px;
+          justify-content: flex-start;
+          flex-wrap: wrap;
+          max-width: 800px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .highlight-div {
+          transition: color 0.2s;
+          font-size: 1.8em;
+        }
+        .highlight-div.highlighted {
+          color: #319eee;
+        }
+      </style>
+</head>
+<body>
+    <h1>Practice HTML</h1>
+    <p>This is a practice HTML file.</p>
+    <div id="a-random-div" class="random"> </div>
+
+    <script>    
+    const parts = [
+        "Minä",
+        "olen",
+        "Helsingi","-stä",
+        "ja",
+        "käy", "-n",
+        "usein", "ulko", "-mai", "-lla",
+        "koska",
+        "olen",
+        "perus", "-luontee", "=lta", "-ni",
+        "mukavuuden", "-haluinen."
+        ];
+
+    const randomdiv = document.getElementById("a-random-div");
+
+        parts.forEach(text => {
+        const aspan = document.createElement("span");
+        aspan.textContent = text;
+        aspan.className = "random-span";
+
+        aspan.addEventListener("mouseenter", () => {
+            aspan.classList.add("highlighted");
+        });
+        aspan.addEventListener("mouseleave", () => {
+            aspan.classList.remove("highlighted");
+        });
+
+        randomdiv.appendChild(aspan);
+});
+
+</script>
+</body>
+</html>

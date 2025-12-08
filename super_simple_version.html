@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Fake news</title>
     <style>
+      h1 {
+        text-align: center;
+      }
+      .story-illustration-container {
+        text-align: center;
+      }
       .story-illustration {
-        width: 200px;
+        width: 400px;
         height: auto;
         max-width: 100%;
         display: block;
@@ -17,12 +23,15 @@
         margin-bottom: 30px;
         display: flex;
         gap: 10px;
-        justify-content: center;
+        justify-content: flex-start;
         flex-wrap: wrap;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
       }
       .highlight-div {
         transition: color 0.2s;
-        font-size: 1.1em;
+        font-size: 1.8em;
       }
       .highlight-div.highlighted {
         color: #319eee;
@@ -30,57 +39,64 @@
     </style>
 </head>
 <body>
-    <h1>Super simple story reader</h1>
+    <h1>Sää on huono</h1>
     <div class="story-illustration-container">
         <img class="story-illustration"
-             src="public/horizontal_illustration.png"
+             src="public/weather_illustration.png"
              alt="illustration">
     </div>
     <div id="highlightWordsParent" class="highlight-words-container"></div>
     <div id="highlightWordsParent2" class="highlight-words-container"></div>
+    <div id="highlightWordsParent3" class="highlight-words-container"></div>
+    <script src="super_simple_version_text.js"></script>
     <script>
-      // Words for the 5 inner divs to display
-      const highlightWords = [
-        "Hello",
-        "world,",
-        "learning",
-        "is",
-        "fun."
-      ];
-
-      const highlightWords2 = [
-        "Hei",
-        "maailma,",
-        "oppiminen",
-        "on",
-        "hauskaa."
-      ];
-
       const parent = document.getElementById("highlightWordsParent");
+      const parent2 = document.getElementById("highlightWordsParent2");
+      const parent3 = document.getElementById("highlightWordsParent3");
+
 
       highlightWords.forEach((word, idx) => {
         const wordDiv = document.createElement("div");
+        const wordDiv2 = document.createElement("div");
+        const wordDiv3 = document.createElement("div");
+
         wordDiv.className = "highlight-div";
+        wordDiv2.className = "highlight-div";
+        wordDiv3.className = "highlight-div";
         wordDiv.textContent = word;
+        wordDiv2.textContent = highlightWords2[idx];
+        //wordDiv3.textContent = highlightWords3[idx];
 
         wordDiv.addEventListener("mouseenter", () => {
           wordDiv.classList.add("highlighted");
+          wordDiv2.classList.add("highlighted");
+          //wordDiv3.classList.add("highlighted");
         });
         wordDiv.addEventListener("mouseleave", () => {
           wordDiv.classList.remove("highlighted");
+          wordDiv2.classList.remove("highlighted");
+          //wordDiv3.classList.remove("highlighted");
         });
 
         parent.appendChild(wordDiv);
+        parent2.appendChild(wordDiv2);
+        //parent3.appendChild(wordDiv3);
 
-        const parent2 = document.getElementById("highlightWordsParent2");
-        
-        highlightWords2.forEach((word, idx) => {
-          const wordDiv2 = document.createElement("div");
-          wordDiv2.className = "highlight-div";
-          wordDiv2.textContent = word;
-          parent2.appendChild(wordDiv2);
-        });
+
       });
+
+
+      highlightWords3.forEach((word, idx) => {
+            const wordDiv3 = document.createElement("div");
+            wordDiv3.className = "highlight-div";
+            wordDiv3.textContent = word;
+            parent3.appendChild(wordDiv3);
+
+        });
+
+
+
+
     </script>
 </body>
 </html>
