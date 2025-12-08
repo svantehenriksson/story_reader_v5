@@ -1,25 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './style.css';
-import {
-  //storyFinnishWords,
-  //storyEnglishWords,
-  //storySpokenFinnishWords,
-    finnishLines,
-    englishLines,
-    spokenLines,
-    storyTitle,
-    startTimes
-} from './StoryData';
-import { FinnishTranslationIndex, EnglishTranslationIndex, FinnishEndingsIndex, grammarNotes } from './StoryData';
-import { topics } from './topics';
 
 
-const StoryReader = ({ goToQuiz, topic, topics, handleTopicSelect, topicIndex: currentTopicIndex, resumeAtLastLine, onResumeHandled }) => {
-  const { storyTitle, finnishLines, englishLines, spokenLines, FinnishTranslationIndex, EnglishTranslationIndex, FinnishEndingsIndex, grammarNotes } = topic.storyData;
 
-  console.log('grammarNotes: ', grammarNotes);  
-  console.log('topic.storyData: ', topic.storyData);
-  console.log('storyTitle: ', storyTitle);
+const StoryReader = ({ goToQuiz, goToNextChapter, topic, topics, handleTopicSelect, topicIndex: currentTopicIndex, resumeAtLastLine, onResumeHandled }) => {
+  const { storyTitle, finnishLines, fakeEnglishLines, englishLines, spokenLines, FinnishTranslationIndex, EnglishTranslationIndex, FinnishEndingsIndex, grammarNotes } = topic.storyData;
 
   const [lineIndex, setLineIndex] = useState(0);
   const [hoveredWordIndex, setHoveredWordIndex] = useState(null);
@@ -28,6 +13,9 @@ const StoryReader = ({ goToQuiz, topic, topics, handleTopicSelect, topicIndex: c
   const [showTopicMenu, setShowTopicMenu] = useState(false);
 
   const isPlayingRef = useRef(false);
+
+  console.log("In beginning of code, FinnishEndingsIndex: ",FinnishEndingsIndex);
+
 
   // If asked to resume at last line (from quiz), jump once and clear flag
   useEffect(() => {
@@ -38,21 +26,13 @@ const StoryReader = ({ goToQuiz, topic, topics, handleTopicSelect, topicIndex: c
     }
   }, [resumeAtLastLine, finnishLines, onResumeHandled]);
 
-  /* The following section is for debugging purposes */
-  useEffect(() => {
-    if (FinnishEndingsIndex && FinnishEndingsIndex[lineIndex]) {
-      console.log('FinnishEndingsIndex for current line:', FinnishEndingsIndex[lineIndex]);
-    }
-  }, [lineIndex, FinnishEndingsIndex]);
 
   const handleNext = () => {
     if (lineIndex < finnishLines.length - 1) {
       setLineIndex(lineIndex + 1);
       setHoveredWordIndex(null);
-      //console.log('Moving to next line:', lineIndex + 2);
       setShowGrammar(false); // Hide grammar notes when moving to next line
-      //console.log('Finnish story lines: ', finnishLines);
-      //console.log('English story lines:', englishLines);
+    
     }
   };
 
@@ -60,7 +40,6 @@ const StoryReader = ({ goToQuiz, topic, topics, handleTopicSelect, topicIndex: c
     if (lineIndex > 0) {
       setLineIndex(lineIndex - 1);
       setHoveredWordIndex(null);
-      //console.log('Moving to previous line:', lineIndex );
       setShowGrammar(false); // Hide grammar notes when moving to next line
     }
   };
@@ -71,21 +50,20 @@ const StoryReader = ({ goToQuiz, topic, topics, handleTopicSelect, topicIndex: c
     setLineIndex(0); // Reset line index when changing topic
   }
 
-  const renderWords = (words, className, isFinnish = false) =>
-    words.map((word, idx) => {
-      /* For debugging purposes */
-      if (isFinnish) { // Log for all lines now
-        console.log(
-          `Word: "${word}",`,
-          `Index: ${idx},`,
-          `Ending Indices: [${FinnishEndingsIndex[lineIndex]}],`,
-          `Should Highlight: ${FinnishEndingsIndex[lineIndex]?.includes(idx)}`
-        );
-      }
-      /* End of debugging purposes */
+const handleClickBack = () => {
+  goToNextChapter();
+  setLineIndex(0);
+};
 
-      let isHighlighted = false;
+const renderWords = (words, className, isFinnish = false) =>
+  words.map((word, idx) => {
+    let isHighlighted = false;
+    if (isFinnish && hoveredWordIndex === idx) {
+      isHighlighted = true;
+    }
+    console.log("FinnishEndingsIndex[lineIndex]: " + FinnishEndingsIndex[lineIndex]);
 
+    /*
       if (isFinnish && hoveredWordIndex != null) {
         const finGroups = FinnishTranslationIndex[lineIndex];
 
@@ -98,15 +76,9 @@ const StoryReader = ({ goToQuiz, topic, topics, handleTopicSelect, topicIndex: c
         if (group !== undefined) {
           const groupArray = Array.isArray(group) ? group : [group];
           isHighlighted = groupArray.includes(idx);
-          /*console.log(
-            'Finnish group:', group,
-            'isHighlighted:', isHighlighted,
-            'word:', word,
-            'index:', idx
-          );*/
         }
       }
-      
+      */
       return (
         <>
           <span
@@ -132,10 +104,36 @@ const StoryReader = ({ goToQuiz, topic, topics, handleTopicSelect, topicIndex: c
       );
     });
 
+
+    const renderWordsFe = (words) =>
+      (words || []).map((word, idx) => (
+        <>
+          <span
+            key={idx}
+            className={`story-word spoken-word ${
+              hoveredWordIndex === idx ? 'highlight' : ''
+            }`}
+          >
+            {word}
+          </span>
+  
+          {/* Add space after word if it's not the last word in the line and not an ending */}
+          {idx !== fakeEnglishLines[lineIndex].length - 1 && !FinnishEndingsIndex[lineIndex]?.includes(idx+1) && (
+            <span key={`${idx}-space`} className="story-word">&nbsp;</span>
+          )}
+        </>
+      ));
+
+
+
+
+
+
   const renderWordsEn = (words) =>
     (words || []).map((word, idx) => {
       let isHighlighted = false;
 
+      /*
       if (hoveredWordIndex != null) {
         const finGroups = FinnishTranslationIndex[lineIndex];
         const engGroups = EnglishTranslationIndex[lineIndex];
@@ -150,7 +148,7 @@ const StoryReader = ({ goToQuiz, topic, topics, handleTopicSelect, topicIndex: c
           isHighlighted = targetIndices.includes(idx);
         }
       }
-      
+*/      
       return (
         <>
           <span
@@ -159,6 +157,7 @@ const StoryReader = ({ goToQuiz, topic, topics, handleTopicSelect, topicIndex: c
           >
             {word}
           </span>
+
 
           {/* Add space after word if it's not the last word */}
           {idx !== englishLines[lineIndex].length - 1 && (
@@ -193,17 +192,17 @@ const StoryReader = ({ goToQuiz, topic, topics, handleTopicSelect, topicIndex: c
     setIsPlaying(true);
     isPlayingRef.current = true;
 
-    console.log('Starting readthrough...');
-    console.log('isPlaying and ref when starting readthrough: ', isPlaying, isPlayingRef.current);
 
     for (let i = lineIndex; i < finnishLines.length; i++) {
       setLineIndex(i);
       setHoveredWordIndex(null);
 
-      const audio = new Audio(process.env.PUBLIC_URL + '/line' + i + '.mp3');
+      //const audio = new Audio(process.env.PUBLIC_URL + '/../public/chapter ' + lineIndex  + 'line' + i + '.mp3');
+      const audio = new Audio(`${process.env.PUBLIC_URL}/chapter${currentTopicIndex}line${i}.mp3`);
+      console.log('${process.env.PUBLIC_URL}/chapter${currentTopicIndex}line${i}.mp3');
+      console.log('Public URL: ' + process.env.PUBLIC_URL);
       audio.playbackRate = 0.5
 
-      console.log('Playing audio for line:', i, 'Audio file:', `public/line${i}.mp3`);
       audio.play().catch(err => {
         console.error(`Error playing audio for line ${i}:`, err);
         setIsPlaying(false);
@@ -233,22 +232,18 @@ const StoryReader = ({ goToQuiz, topic, topics, handleTopicSelect, topicIndex: c
       });
 
       await Promise.all([audioPromise, highlighter()]).catch(console.warn);
-      console.log('isPlaying before if loop: ', isPlaying);
 
       if (!isPlayingRef.current)  {
         //stopEarly = true;
-        console.log('isPlaying in if loop: ', isPlaying);
         break;
       }
     }
 
     setHoveredWordIndex(null);
     setIsPlaying(false);
-    console.log('Finished readthrough.');
   };
 
   const handleStop = () => {
-    console.log('Stopping readthrough...');
     isPlayingRef.current = false;
     setIsPlaying(false);
     setHoveredWordIndex(null);
@@ -256,20 +251,36 @@ const StoryReader = ({ goToQuiz, topic, topics, handleTopicSelect, topicIndex: c
 
   return (
     <div className="story-container">
-      <h1 className="story-title">{storyTitle}</h1>
+     { /*<h1 className="story-title">{storyTitle}</h1>*/},
 
-      <div className="outer-box">
+     <div className="outer-box">
+
+
+     <div className="story-illustration-container">
+        <img className="story-illustration"
+          src={process.env.PUBLIC_URL + (topic.illustration || '/horizontal_illustration.png')}
+          alt="Leo and family barbecue"
+        />
+      </div>
+
         <div className="finnish-box story-line finnish">
           {renderWords(finnishLines[lineIndex], 'finnish-word', true)}
+        </div>
+
+
+{/*//Now using same css for English and Fake English*/}
+        <div className="story-line english">
+          {renderWordsFe(fakeEnglishLines[lineIndex])}
+        </div>
+
+        <div className="story-line spoken">
+          {renderWordsSp(spokenLines[lineIndex])}
         </div>
 
         <div className="story-line english">
           {renderWordsEn(englishLines[lineIndex])}
         </div>
 
-        <div className="story-line spoken">
-          {renderWordsSp(spokenLines[lineIndex])}
-        </div>
       </div>
 
       <div className="navigation-buttons">
@@ -341,22 +352,25 @@ const StoryReader = ({ goToQuiz, topic, topics, handleTopicSelect, topicIndex: c
         )}
       </div>
 
-      <div className="quiz">
-        {lineIndex === finnishLines.length - 1 && (
-          <button onClick={goToQuiz} className="next-button">
-            ❓❓Quiz❓❓
-          </button>
-        )}
-      </div>
 
-      <div className="story-illustration-container">
-        <img className="story-illustration"
-          src={process.env.PUBLIC_URL + (topic.illustration || '/horizontal_illustration.png')}
-          alt="Leo and family barbecue"
-        />
-      </div>
+{/* We use same class for both quiz and next story buttons */}
+{lineIndex === finnishLines.length - 1 && (
+  <div className="quiz" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '1rem' }}>
+    <button onClick={goToQuiz} className="next-button">
+      ❓❓Quiz❓❓
+    </button>
+    <button onClick={handleClickBack} className="next-button">
+      ➡️ Seuraava luku - Next chapter ➡️
+    </button>
+  </div>
+)}
+
+    
     </div>
   );
 };
+
+
+
 
 export default StoryReader;

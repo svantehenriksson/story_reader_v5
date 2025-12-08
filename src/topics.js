@@ -82,6 +82,21 @@ const splitByBr = (storyText) => {
   Luca hymyil-ee. <br> 
   Tämä on Suomi.`;
   
+  const story1FakeEnglish = `
+  Luca is airport-at. <br> 
+  Luca is tired. <br> 
+  Luca drinks coffee-some <br>
+  Coffee is expensive-some. <br>
+  Coffee is a bit strange-some. <br>
+  But coffee helps. <br>
+  Finn-s(the) drink-they this every day? <br>
+  Luca look-he bus-some. <br>
+  The_bus arrive-s. <br>
+  The_driver not speak English-some. <br>
+  The_driver not say anything. <br>
+  Luca says: "Hi." <br>
+`;
+
   const story1English = `
   Luca is at the airport. <br> 
   Luca is tired. <br> 
@@ -104,6 +119,8 @@ const splitByBr = (storyText) => {
   Luca smiles. <br> 
   This is Finland.`;
   
+  
+
   const story1SpokenFinnish = `
   Luca on lentokentä-l. <br> 
   Luca on väsyny. <br> 
@@ -394,6 +411,7 @@ Leffa-n jälkeen Luca mene-e nukku-u. <br>
       storyData: {
         storyTitle: "Luca saapuu Suomeen",
         finnishLines: splitByBr(story1Finnish),
+        fakeEnglishLines: splitByBr(story1FakeEnglish),
         englishLines: splitByBr(story1English),
         spokenLines: splitByBr(story1SpokenFinnish),
         FinnishEndingsIndex: [
