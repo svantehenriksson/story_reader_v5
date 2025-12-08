@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .timer {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #333;
+        }
+        .score-table {
+            font-size: 2.5em;
+            margin: 30px 0;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            background-color: rgba(102, 126, 234, 0.1);
+            border: 3px solid;
+            border-image: linear-gradient(135deg, #667eea, #764ba2, #f093fb) 1;
+            position: relative;
+            overflow: hidden;
+        }
+        .score-table::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        .score-table.shake {
+            animation: shake 0.5s;
+        }
+        .score-table.glimmer {
+            animation: glimmer 0.6s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        @keyframes glimmer {
+            0%, 100% { 
+                filter: brightness(1);
+                transform: scale(1);
+            }
+            50% { 
+                filter: brightness(1.5);
+                transform: scale(1.05);
+            }
+        }
+        .score-digits {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffd700, #ffed4e, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(255,215,0,0.5);
+            letter-spacing: 2px;
+            display: inline-block;
+            padding: 0 5px;
+            transition: transform 0.2s ease;
+        }
+        .total-text {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+        }
+        /* Coin/Star rain animation */
+        .coin-rain {
+            position: fixed;
+            top: -50px;
+            font-size: 30px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: coinFall linear;
+        }
+        .star-rain {
+            position: fixed;
+            top: -50px;
+            font-size: 30px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: starFall linear;
+        }
+        @keyframes coinFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        @keyframes starFall {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(50vh) rotate(180deg) scale(1.2);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg) scale(0.8);
+                opacity: 0;
+            }
+        }
+        .question {
+            font-size: 1.8em;
+            margin: 40px 0 30px 0;
+            font-weight: bold;
+        }
+        .alternatives {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 30px auto;
+            max-width: 500px;
+        }
+        .alternative {
+            padding: 15px 20px;
+            font-size: 1.3em;
+            background: #f0f0f0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .alternative:hover {
+            background: #e0e0e0;
+            border-color: #319eee;
+        }
+        .alternative:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .result {
+            font-size: 1.5em;
+            margin: 20px 0;
+            font-weight: bold;
+            min-height: 50px;
+        }
+        .correct {
+            color: #28a745;
+        }
+        .incorrect {
+            color: #dc3545;
+        }
+        .completion {
+            font-size: 1.8em;
+            margin: 40px 0;
+            font-weight: bold;
+            color: #319eee;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quiz</h1>
+    
+    <div class="timer" id="timer">0 : 00</div>
+    
+    <div class="score-table" id="score-table">
+        PISTEET - POINTS <span class="score-digits" id="score">0</span> / <span class="score-digits" id="questions">0</span>
+    </div>
+    <div class="total-text" id="total-text"></div>
+    
+    <div class="question" id="question"></div>
+    
+    <div class="alternatives" id="alternatives"></div>
+    
+    <div class="result" id="result"></div>
+    
+    <script src="super_simple_version_text.js"></script>
+    <script src="super_simple_quiz.js"></script>
+    <script>
+        // Timer functionality
+        let startTime = Date.now();
+        const timerElement = document.getElementById('timer');
+        
+        function updateTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            timerElement.textContent = `${minutes} : ${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        setInterval(updateTimer, 1000);
+        
+        // Shuffle arrays while keeping indices matched
+        function shuffleArrays(array1, array2) {
+            const combined = array1.map((val, idx) => ({ val1: val, val2: array2[idx], idx }));
+            for (let i = combined.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [combined[i], combined[j]] = [combined[j], combined[i]];
+            }
+            return {
+                arr1: combined.map(item => item.val1),
+                arr2: combined.map(item => item.val2)
+            };
+        }
+        
+        // Get random alternatives (excluding the correct answer)
+        function getRandomAlternatives(correctAnswer, allFinnishWords, count = 2) {
+            const alternatives = [];
+            const available = allFinnishWords.filter(word => word !== correctAnswer);
+            
+            for (let i = 0; i < count; i++) {
+                const randomIndex = Math.floor(Math.random() * available.length);
+                alternatives.push(available[randomIndex]);
+                available.splice(randomIndex, 1);
+            }
+            
+            return alternatives;
+        }
+        
+        // Quiz state
+        let shuffledFinnish = [];
+        let shuffledEnglish = [];
+        let currentIndex = 0;
+        let correctAnswers = 0;
+        let questionsAsked = 0;
+        let maxQuestions = 0;
+        let isWaiting = false;
+        
+        // Initialize quiz
+        function initQuiz() {
+            // Ensure arrays are the same length (use minimum length)
+            const minLength = Math.min(finnishWords.length, englishWords.length);
+            const finnishTrimmed = finnishWords.slice(0, minLength);
+            const englishTrimmed = englishWords.slice(0, minLength);
+
+            console.log("finnishWords: ", finnishWords);
+            console.log("englishWords: ", englishWords);
+            
+            // Shuffle arrays
+            console.log("Finnish array before shuffling arrays: ", finnishTrimmed);
+            console.log("English array before shuffling arrays: ", englishTrimmed);
+            //const shuffled = shuffleArrays(finnishTrimmed, englishTrimmed);
+            //shuffledFinnish = shuffled.arr1;
+            //shuffledEnglish = shuffled.arr2;
+
+            const indices = Array.from({ length: finnishWords.length }, (_, i) => i);
+            function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // swap
+            }
+            return array;
+            }
+
+            const perm = shuffle(indices);
+
+            console.log("perm: ", perm);
+            console.log("perm.length: ", perm.length);
+            console.log("finnishTrimmed.length: ", finnishTrimmed.length);
+            console.log("indices.length: ", indices.length);
+
+            // Perhaps a bit dodgy: we're creating a global array here so no let or const:
+            //shuffledFinnish  = perm.map(i => finnishTrimmed[i]);
+            //shuffledEnglish  = perm.map(i => englishTrimmed[i]);
+
+            shuffledFinnish = finnishTrimmed;
+            shuffledEnglish = englishTrimmed;
+
+            console.log("Finnish array after shuffling arrays: ", shuffledFinnish);
+            console.log("English array after shuffling arrays: ", shuffledEnglish);
+
+            // Create 3 rounds
+            shuffledFinnish = [...shuffledFinnish, ...shuffledFinnish, ...shuffledFinnish];
+            shuffledEnglish = [...shuffledEnglish, ...shuffledEnglish, ...shuffledEnglish];
+            
+            maxQuestions = shuffledFinnish.length;
+            document.getElementById('total-text').textContent = `Total / yhteensä : ${maxQuestions}`;
+            
+            showNextQuestion();
+        }
+        
+        // Show next question
+        function showNextQuestion() {
+            if (currentIndex >= shuffledFinnish.length) {
+                console.log("currentIndex triggering completion: ", currentIndex);
+                console.log("shuffledFinnish: ", shuffledFinnish);
+                console.log("shuffledFinnish.length: ", shuffledFinnish.length);
+                showCompletion();
+                return;
+            }
+            
+            isWaiting = false;
+            const englishWord = shuffledEnglish[currentIndex];
+            const correctFinnish = shuffledFinnish[currentIndex];
+            
+            document.getElementById('question').textContent = `What is "${englishWord}" in Finnish?`;
+            document.getElementById('result').textContent = '';
+            
+            // Get alternatives
+            const alternatives = getRandomAlternatives(correctFinnish, finnishWords, 2);
+            alternatives.push(correctFinnish);
+            
+            // Shuffle alternatives
+            for (let i = alternatives.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [alternatives[i], alternatives[j]] = [alternatives[j], alternatives[i]];
+            }
+            
+            // Display alternatives
+            const alternativesDiv = document.getElementById('alternatives');
+            alternativesDiv.innerHTML = '';
+            alternatives.forEach(alt => {
+                const button = document.createElement('button');
+                button.className = 'alternative';
+                button.textContent = alt;
+                button.onclick = () => handleAnswer(alt, correctFinnish);
+                alternativesDiv.appendChild(button);
+            });
+        }
+        
+        // Create coin/star rain animation
+        function createCoinRain() {
+            const emojis = ['🪙', '⭐', '✨', '💫', '🌟'];
+            const numCoins = 15;
+            
+            for (let i = 0; i < numCoins; i++) {
+                setTimeout(() => {
+                    const coin = document.createElement('div');
+                    coin.className = Math.random() > 0.5 ? 'coin-rain' : 'star-rain';
+                    coin.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    coin.style.left = Math.random() * 100 + '%';
+                    coin.style.animationDuration = (Math.random() * 1 + 1.5) + 's';
+                    coin.style.animationDelay = Math.random() * 0.3 + 's';
+                    document.body.appendChild(coin);
+                    
+                    setTimeout(() => {
+                        coin.remove();
+                    }, 3000);
+                }, i * 50);
+            }
+        }
+        
+        // Animate score update
+        function animateScoreUpdate() {
+            const scoreTable = document.getElementById('score-table');
+            scoreTable.classList.add('shake', 'glimmer');
+            
+            setTimeout(() => {
+                scoreTable.classList.remove('shake', 'glimmer');
+            }, 600);
+        }
+        
+        // Handle answer
+        function handleAnswer(selected, correct) {
+            if (isWaiting) return;
+            
+            isWaiting = true;
+            questionsAsked++;
+            
+            // Disable all buttons
+            const buttons = document.querySelectorAll('.alternative');
+            buttons.forEach(btn => btn.disabled = true);
+            
+            const resultDiv = document.getElementById('result');
+            const previousScore = correctAnswers;
+            
+            if (selected === correct) {
+                correctAnswers++;
+                resultDiv.textContent = 'OIKEIN!! TOSI HYVÄ!! ⭐';
+                resultDiv.className = 'result correct';
+                
+                // Create coin/star rain
+                createCoinRain();
+                
+                // Animate score if it increased
+                if (correctAnswers > previousScore) {
+                    animateScoreUpdate();
+                }
+            } else {
+                resultDiv.textContent = 'VÄÄRIN 😢';
+                resultDiv.className = 'result incorrect';
+            }
+            
+            // Update score with animation
+            const scoreElement = document.getElementById('score');
+            const questionsElement = document.getElementById('questions');
+            
+            // Animate number change
+            scoreElement.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                scoreElement.textContent = correctAnswers;
+                scoreElement.style.transform = 'scale(1)';
+            }, 100);
+            
+            questionsElement.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                questionsElement.textContent = questionsAsked;
+                questionsElement.style.transform = 'scale(1)';
+            }, 100);
+            
+            // Wait 2 seconds before next question
+            setTimeout(() => {
+                currentIndex++;
+                showNextQuestion();
+            }, 2000);
+        }
+        
+        // Show completion message
+        function showCompletion() {
+            document.getElementById('question').textContent = '';
+            document.getElementById('alternatives').innerHTML = '';
+            document.getElementById('result').innerHTML = '';
+            
+            const completionDiv = document.createElement('div');
+            completionDiv.className = 'completion';
+            completionDiv.textContent = `Visa ohi, sait - Quiz over, you got ${correctAnswers}/${maxQuestions}`;
+            document.body.appendChild(completionDiv);
+        }
+        
+        // Start quiz when page loads
+        window.addEventListener('load', () => {
+            initQuiz();
+        });
+    </script>
+</body>
+</html>
+

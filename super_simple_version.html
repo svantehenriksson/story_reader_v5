@@ -22,20 +22,74 @@
         margin-top: 20px;
         margin-bottom: 30px;
         display: flex;
-        gap: 10px;
+        /*gap: 10px;*/
         justify-content: flex-start;
         flex-wrap: wrap;
         max-width: 800px;
         margin-left: auto;
         margin-right: auto;
       }
-      .highlight-div {
+      .highlight-span {
         transition: color 0.2s;
         font-size: 1.8em;
+        margin-left: 0.35em;
       }
-      .highlight-div.highlighted {
-        color: #319eee;
+      .highlight-span.highlighted {
+        background-color: #13366b;
+        color: #fff;
+        border-radius: 0.09em;
+        box-shadow: 0 1px 3px rgba(19,54,107,0.07);
+        transition: background 0.2s;
+        outline: 0.07em solid #13366b;
+        outline-offset: -0.07em;
+        /* Use box-shadow for subtle emphasis, not width, to avoid element resizing or hiding text */
       }
+      /* Ending types only change text color */
+     .ending1 {
+        color: #0070f3; /* blue-ish */
+        margin-left: 0; /* to attach to previous word */
+        }
+
+        .ending2 {
+        color: #d12f2f; /* red-ish */
+        margin-left: 0; /* to attach to previous word */
+        }      
+
+      .quiz-button {
+        display: inline-block;
+        margin: 26px auto 16px auto;
+        padding: 0.6em 1.5em;
+        font-size: 1.25em;
+        font-family: inherit;
+        background: linear-gradient(90deg,#319eee 20%,#89a7da 100%);
+        color: #fff;
+        border: none;
+        border-radius: 2em;
+        cursor: pointer;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(49,158,238,0.13);
+        text-decoration: none;
+        transition: background 0.25s, box-shadow 0.2s, transform 0.1s;
+        letter-spacing: 0.02em;
+      }
+      .quiz-button:hover, .quiz-button:focus {
+        background: linear-gradient(90deg,#1e69c5 20%,#38567d 100%);
+        box-shadow: 0 4px 15px rgba(49,158,238,0.18);
+        color: #eef7ff;
+        transform: translateY(-2px) scale(1.045);
+        outline: none;
+        text-decoration: none;
+      }
+      .quiz-btn-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1.5em;
+      }
+
+
+
+
     </style>
 </head>
 <body>
@@ -48,6 +102,12 @@
     <div id="highlightWordsParent" class="highlight-words-container"></div>
     <div id="highlightWordsParent2" class="highlight-words-container"></div>
     <div id="highlightWordsParent3" class="highlight-words-container"></div>
+
+    <div class="quiz-btn-container">
+      <a class="quiz-button" href="super_simple_quiz.html">?? Quiz ??</a>
+    </div>
+
+    
     <script src="super_simple_version_text.js"></script>
     <script>
       const parent = document.getElementById("highlightWordsParent");
@@ -56,30 +116,54 @@
 
 
       highlightWords.forEach((word, idx) => {
-        const wordDiv = document.createElement("div");
-        const wordDiv2 = document.createElement("div");
-        const wordDiv3 = document.createElement("div");
+        const word1 = document.createElement("span");
+        const word2 = document.createElement("span");
+        const word3 = document.createElement("span");
 
-        wordDiv.className = "highlight-div";
-        wordDiv2.className = "highlight-div";
-        wordDiv3.className = "highlight-div";
-        wordDiv.textContent = word;
-        wordDiv2.textContent = highlightWords2[idx];
+        word1.className = "highlight-span";
+        word2.className = "highlight-span";
+        word3.className = "highlight-span";
+        word1.textContent = word;
+        word2.textContent = highlightWords2[idx];
         //wordDiv3.textContent = highlightWords3[idx];
 
-        wordDiv.addEventListener("mouseenter", () => {
-          wordDiv.classList.add("highlighted");
-          wordDiv2.classList.add("highlighted");
+          // Ending 1: starts with "-"
+        if (word1.textContent.startsWith("-")) {
+            word1.className += " ending1";
+            word2.className += " ending1";
+            word1.textContent = word1.textContent.slice(1); // remove leading "-"
+        }
+        // Ending 2: starts with "=" or "=="
+        else if (word1.textContent.startsWith("==") || word1.textContent.startsWith("=")) {
+            word1.className += " ending2";
+            word2.className += " ending2";
+            word1.textContent = word1.textContent.replace(/^=+/, ""); // remove one or two "="
+        }
+
+
+
+        word1.addEventListener("mouseenter", () => {
+          word1.classList.add("highlighted");
+          word2.classList.add("highlighted");
           //wordDiv3.classList.add("highlighted");
         });
-        wordDiv.addEventListener("mouseleave", () => {
-          wordDiv.classList.remove("highlighted");
-          wordDiv2.classList.remove("highlighted");
+        word1.addEventListener("mouseleave", () => {
+          word1.classList.remove("highlighted");
+          word2.classList.remove("highlighted");
           //wordDiv3.classList.remove("highlighted");
         });
 
-        parent.appendChild(wordDiv);
-        parent2.appendChild(wordDiv2);
+        parent.appendChild(word1);
+        parent2.appendChild(word2);
+
+        // Add extra space if word1 is not an ending. DIDN'T WORK DUE TO FLEXBOX OR WHATEVER, 
+        // DOING A SMALL "HACK" IN CSS INSTEAD
+        /*
+        if (!word1.classList.contains("ending1") && !word1.classList.contains("ending2")) {
+          parent.appendChild(document.createTextNode(" "));
+          parent2.appendChild(document.createTextNode(" "));
+        }
+          */
         //parent3.appendChild(wordDiv3);
 
 
@@ -87,10 +171,10 @@
 
 
       highlightWords3.forEach((word, idx) => {
-            const wordDiv3 = document.createElement("div");
-            wordDiv3.className = "highlight-div";
-            wordDiv3.textContent = word;
-            parent3.appendChild(wordDiv3);
+            const word3 = document.createElement("span");
+            word3.className = "highlight-span";
+            word3.textContent = word;
+            parent3.appendChild(word3);
 
         });
 

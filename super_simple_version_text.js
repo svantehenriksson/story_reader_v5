@@ -19,27 +19,27 @@ Hello world, learning is fun.
 */
 
 const storyFinnish = `
-Eilen ennuste oli lämmin ja aurinkoinen. 
-Tänään tiedämme että ennuste oli väärin. 
+Eilen ennuste oli lämmin ja aurinko -inen. 
+Tänään tiedä -mme että ennuste oli väärin. 
 Sää on kylmä ja harmaa. 
 Aurinko ei paista. 
-Lämpötila on plus kaksi astetta. 
-Ilmatieteen laitos ei kommentoi. 
-Ihmiset näyttävät pettyneiltä. 
+Lämpötila on plus kaksi aste -tta. 
+Ilma -tietee =n laitos ei kommentoi. 
+Ihmiset näyttä -vät pettyne -i =ltä. 
 Kaupunki on hiljainen ja kylmä. 
-Me odotamme parempaa huomista.
+Me odotamme parem -paa huomis -ta.
 `;
 
 const storyFakeEnglish = `
-Yesterday the_forecast was warm and sunny. 
-Today know-we that the_forecast was wrong. 
+Yesterday the_forecast was warm and sun -ny. 
+Today know -we that the_forecast was wrong. 
 The-weather is cold and gray. 
-The-sun not shines. 
-The-temperature is plus two degrees. 
-Air-science's Institute not comments. 
-The-people look-they disappointed-from. 
+The-sun doesn't shine. 
+The-temperature is plus two degree -s. 
+Air -science -'s Institute not comments. 
+The-people look -they disappointed -many -from. 
 The-city is quiet and cold. 
-We wait-we better_some tomorrow-from.
+We wait-we better -some tomorrow -some.
 `;
 
 const storyEnglish = `
@@ -49,7 +49,7 @@ The weather is cold and gray.
 The sun is not shining. 
 The temperature is plus two degrees.
 The Finnish Meteorological Institute gives no comment.
-The neighbors look disappointed.
+The people look disappointed.
 The city is quiet and cold.
 We are waiting for a better tomorrow.
 `;

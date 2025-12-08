@@ -36,6 +36,27 @@
         .highlight-div.highlighted {
           color: #319eee;
         }
+        .random-span {
+        display: inline;
+        font-size: 1.1rem;
+        margin-left: 0.15em;  /* tiny gap between chunks */
+        }
+
+        .random-span.highlighted {
+        background-color: #ffff99; /* pale yellow on hover */
+        }
+
+        /* Ending types only change text color */
+        .ending1 {
+        color: #0070f3; /* blue-ish */
+        margin-left: 0; /* to attach to previous word */
+        }
+
+        .ending2 {
+        color: #d12f2f; /* red-ish */
+        margin-left: 0; /* to attach to previous word */
+        }
+
       </style>
 </head>
 <body>
@@ -44,35 +65,51 @@
     <div id="a-random-div" class="random"> </div>
 
     <script>    
-    const parts = [
-        "Minä",
-        "olen",
-        "Helsingi","-stä",
-        "ja",
-        "käy", "-n",
-        "usein", "ulko", "-mai", "-lla",
-        "koska",
-        "olen",
-        "perus", "-luontee", "=lta", "-ni",
-        "mukavuuden", "-haluinen."
-        ];
+const parts = [
+  "Minä",
+  "olen",
+  "Helsingi", "-stä",
+  "ja",
+  "käy", "-n",
+  "usein", "ulko", "-mai", "-lla",
+  "koska",
+  "olen",
+  "perus", "-luontee", "=lta", "-ni",
+  "mukavuuden", "-halu", "=inen."
+];
 
-    const randomdiv = document.getElementById("a-random-div");
+const randomdiv = document.getElementById("a-random-div");
 
-        parts.forEach(text => {
-        const aspan = document.createElement("span");
-        aspan.textContent = text;
-        aspan.className = "random-span";
+parts.forEach(rawText => {
+  const aspan = document.createElement("span");
 
-        aspan.addEventListener("mouseenter", () => {
-            aspan.classList.add("highlighted");
-        });
-        aspan.addEventListener("mouseleave", () => {
-            aspan.classList.remove("highlighted");
-        });
+  let text = rawText;
+  let classes = ["random-span"];
 
-        randomdiv.appendChild(aspan);
+  // Ending 1: starts with "-"
+  if (text.startsWith("-")) {
+    classes.push("ending1");
+    text = text.slice(1); // remove leading "-"
+  }
+  // Ending 2: starts with "=" or "=="
+  else if (text.startsWith("==") || text.startsWith("=")) {
+    classes.push("ending2");
+    text = text.replace(/^=+/, ""); // remove one or two "="
+  }
+
+  aspan.textContent = text;
+  aspan.className = classes.join(" ");
+
+  aspan.addEventListener("mouseenter", () => {
+    aspan.classList.add("highlighted");
+  });
+  aspan.addEventListener("mouseleave", () => {
+    aspan.classList.remove("highlighted");
+  });
+
+  randomdiv.appendChild(aspan);
 });
+
 
 </script>
 </body>
