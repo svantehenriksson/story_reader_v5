@@ -184,6 +184,24 @@
 
         });
 
+        async function highlightWordsSequentially(wordSpans1, wordSpans2) {
+        // Remove any previous highlights
+        wordSpans1.forEach(span => span.classList.remove("highlighted"));
+        wordSpans2.forEach(span => span.classList.remove("highlighted"));
+
+        console.log("highlightWordsSequentially started");
+        console.log("wordSpans1.length: " + wordSpans1.length);
+        console.log("wordSpans2.length: " + wordSpans2.length);
+
+        for (let i = 0; i < wordSpans1.length && i < wordSpans2.length; i++) {
+          wordSpans1[i].classList.add("highlighted");
+          wordSpans2[i].classList.add("highlighted");
+          await new Promise(res => setTimeout(res, 300));
+          wordSpans1[i].classList.remove("highlighted");
+          wordSpans2[i].classList.remove("highlighted");
+        }
+      }
+
       // Play button event listener
       const playButton = document.getElementById("playButton");
       playButton.addEventListener("click", function() {
@@ -193,6 +211,18 @@
         // You can add text-to-speech or audio playback logic here
         const audio = new Audio("public/line0.mp3");
         audio.play();
+      // Get all the word spans inside parent and parent2
+      const wordSpans1 = parent.querySelectorAll(".highlight-span");
+      const wordSpans2 = parent2.querySelectorAll(".highlight-span");
+      console.log("wordSpans1.length in play function: " + wordSpans1.length);
+      console.log("wordSpans2.length in play function: " + wordSpans2.length);
+
+      
+
+
+
+      // Attach this animation to the play button as a demo
+      highlightWordsSequentially(wordSpans1, wordSpans2);
       });
 
 
