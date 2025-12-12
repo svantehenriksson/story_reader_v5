@@ -93,10 +93,10 @@
     </style>
 </head>
 <body>
-    <h1>Thaimaan mysteerit</h1>
+    <h1>Sää on huono</h1>
     <div class="story-illustration-container">
         <img class="story-illustration"
-             src="public/illustration_maelaisawan.png"
+             src="public/weather_illustration.png"
              alt="illustration">
     </div>
     <div id="highlightWordsParent" class="highlight-words-container"></div>
@@ -108,8 +108,61 @@
     </div>
 
     
-    <script src="thailand_story.js"></script>
     <script>
+
+    const storyFinnish = `
+    Eilen ennuste oli lämmin ja aurinko -inen. 
+    Tänään tiedä -mme että ennuste oli väärin. 
+    Sää on kylmä ja harmaa. 
+    Aurinko ei paista. 
+    Lämpötila on plus kaksi aste -tta. 
+    Ilma -tietee =n laitos ei kommentoi. 
+    Ihmiset näyttä -vät pettyne -i =ltä. 
+    Kaupunki on hiljainen ja kylmä. 
+    Me odotamme parem -paa huomis -ta.
+    `;
+
+    const storyFakeEnglish = `
+    Yesterday the_forecast was warm and sun -ny. 
+    Today know -we that the_forecast was wrong. 
+    The-weather is cold and gray. 
+    The-sun doesn't shine. 
+    The-temperature is plus two degree -s. 
+    Air -science -'s Institute not comments. 
+    The-people look -they disappointed -many -from. 
+    The-city is quiet and cold. 
+    We wait-we better -some tomorrow -some.
+    `;
+
+    const storyEnglish = `
+    Yesterday the forecast was warm and sunny. 
+    Today we know the forecast was wrong. 
+    The weather is cold and gray. 
+    The sun is not shining. 
+    The temperature is plus two degrees.
+    The Finnish Meteorological Institute gives no comment.
+    The people look disappointed.
+    The city is quiet and cold.
+    We are waiting for a better tomorrow.
+    `;
+
+
+    // Function to break strings by space and create word arrays
+    function createWordArrays() {
+    const highlightWords = storyFinnish.split(" ");
+    const highlightWords2 = storyFakeEnglish.split(" ");
+    const highlightWords3 = storyEnglish.split(" ");
+    
+    return {
+        highlightWords,
+        highlightWords2,
+        highlightWords3
+    };
+    }
+
+    // Create the word arrays
+    const { highlightWords, highlightWords2, highlightWords3 } = createWordArrays();
+
       const parent = document.getElementById("highlightWordsParent");
       const parent2 = document.getElementById("highlightWordsParent2");
       const parent3 = document.getElementById("highlightWordsParent3");
@@ -138,8 +191,6 @@
             word1.className += " ending2";
             word2.className += " ending2";
             word1.textContent = word1.textContent.replace(/^=+/, ""); // remove one or two "="
-            // New imprvement tryout 11.12.2025:
-            word2.textContent = word2.textContent.replace("=", "-"); // try to tidy up the English translation
         }
 
 

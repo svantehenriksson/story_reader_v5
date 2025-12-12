@@ -1,23 +1,6 @@
-// Story text strings
-/*const storyFinnish = `Hei maailma, oppiminen on hauskaa. 
-Hei maailma, oppiminen on hauskaa.
-Hei maailma, oppiminen on hauskaa.
-`;
+coconut_story.js
 
-const storyFakeEnglish = `
-Hello world, learning is fun. 
-Hello world, learning is fun. 
-Hello world, learning is fun.
-`;
-
-
-const storyEnglish = `
-Hello world, learning is fun. 
-Hello world, learning is fun. 
-Hello world, learning is fun.
-`;
-*/
-
+/*
 const storyFinnish = `
 Eilen ennuste oli lämmin ja aurinko -inen. 
 Tänään tiedä -mme että ennuste oli väärin. 
@@ -53,6 +36,103 @@ The people look disappointed.
 The city is quiet and cold.
 We are waiting for a better tomorrow.
 `;
+
+*/
+
+
+/*
+
+const storyFinnish = `
+  Ruka wa kuukou ni iru.
+  Ruka wa tsukare -te iru.
+  Ruka wa koohii o nomu.
+  Koohii wa takai.
+  Koohii wa chotto hen da.
+  Demo koohii wa yaku ni tatsu.
+  Finrando -jin wa kore o mainichi nomu?
+  Ruka wa basu o sagashite iru.
+  Basu ga kuru.
+  Untenshu wa eigo o hanasanai.
+  Untenshu wa nanimo iwanai.
+  Ruka wa "Yaa" to iu.
+  Untenshu wa nanimo iwanai.
+  Soto de wa yuki ga futte iru.
+  Yuki ga takusan.
+  Samui.
+  Totemo samui.
+  Yuki wa kirei da.
+  Ruka wa hohoemu.
+  Koko wa Finrando da.`;
+
+  const storyFakeEnglish = `
+  Luca asforhim airport at be.
+  Luca asforhim tired -(teform) be.
+  Luca asforhim coffee (<object) drink.
+  Coffee asforit expensive.
+  Coffee asforit a_bit strange be.
+  But coffee asforit function for stands.
+  Finn -s asforthem this (some) everyday drink?
+  Luca asforhim bus (some) searches is.
+  Bus (it_subject) arrives.
+  Driver (it_subject) English (object) notspeak.
+  Driver asforhim nothing doesntsay.
+  Luca asforhim "Hi." (quote) say.
+  Driver asforhim nothing doesntsay.
+  Outside at asforthere snow (it_subject) itfalling is
+  Snow (it_subject) lots.
+  Cold.
+  Really cold.
+  Snow asforit beautiful be.
+  Luca asforhim smile.
+  This asforit Finland be.
+`;
+
+  const storyEnglish = `
+  Luca is at the airport.   
+  Luca is tired.   
+  Luca drinks coffee.   
+  The coffee is expensive.   
+  The coffee is a bit strange.   
+  But the coffee helps.   
+  Finns drink this every day?   
+  Luca is looking for the bus.   
+  The bus arrives.   
+  The driver doesn't speak English.   
+  The driver doesn't say anything.   
+  Luca says: "Hi."   
+  The driver doesn't say anything.   
+  It's snowing outside.   
+  A lot of snow.   
+  It's cold.   
+  Really cold.   
+  The snow is beautiful.   
+  Luca smiles.   
+  This is Finland.`;
+  
+  const storySpokenFinnish = `
+  るか-は-くうこう-に-いる。   
+  るか-は-つかれて-いる。   
+  るか-は-こおひい-を-のむ。   
+  こおひいはたかい。   
+  こおひいはちょっとへんだ。   
+  でもこおひいはやくにたつ。   
+  ふぃんらんどじんはこれをまいにちのむ？   
+  るかはばすをさがしている。   
+  ばすがくる。   
+  うんてんしゅはえいごをはなさない。   
+  うんてんしゅはなにもいわない。   
+  るかは「やあ」という。   
+  うんてんしゅはなにもいわない。   
+  そとではゆきがふっている。   
+  ゆきがたくさん。   
+  さむい。   
+  とてもさむい。   
+  ゆきはきれいだ。   
+  るかはほほえむ。   
+  ここはふぃんらんどだ。`;
+
+*/
+
 
 
 // Function to break strings by space and create word arrays

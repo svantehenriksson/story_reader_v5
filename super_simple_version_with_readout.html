@@ -107,6 +107,10 @@
       <a class="quiz-button" href="super_simple_quiz.html">?? Quiz ??</a>
     </div>
 
+    <div class="quiz-btn-container">
+      <div id="playButton" class="quiz-button" style="font-size:2em; cursor: pointer;">▶️</div>
+    </div>
+
     
     <script src="thailand_story.js"></script>
     <script>
@@ -179,6 +183,17 @@
             parent3.appendChild(word3);
 
         });
+
+      // Play button event listener
+      const playButton = document.getElementById("playButton");
+      playButton.addEventListener("click", function() {
+        // Add your play functionality here
+        // For example: text-to-speech, audio playback, etc.
+        console.log("Play button clicked!");
+        // You can add text-to-speech or audio playback logic here
+        const audio = new Audio("public/line0.mp3");
+        audio.play();
+      });
 
 
 
