@@ -195,7 +195,7 @@
     
     <div class="result" id="result"></div>
     
-    <script src="thailand_story.js"></script>
+    <script src="super_simple_version_text.js"></script>
     <script src="super_simple_quiz.js"></script>
     <script>
         // Timer functionality
@@ -290,9 +290,9 @@
             console.log("Finnish array after shuffling arrays: ", shuffledFinnish);
             console.log("English array after shuffling arrays: ", shuffledEnglish);
 
-            // Create 3 rounds
-            shuffledFinnish = [...shuffledFinnish, ...shuffledFinnish, ...shuffledFinnish];
-            shuffledEnglish = [...shuffledEnglish, ...shuffledEnglish, ...shuffledEnglish];
+            // Create 3 rounds -> changed to 1, it was too long
+            //shuffledFinnish = [...shuffledFinnish, ...shuffledFinnish, ...shuffledFinnish];
+            //shuffledEnglish = [...shuffledEnglish, ...shuffledEnglish, ...shuffledEnglish];
             
             maxQuestions = shuffledFinnish.length;
             document.getElementById('total-text').textContent = `Total / yhteensä : ${maxQuestions}`;

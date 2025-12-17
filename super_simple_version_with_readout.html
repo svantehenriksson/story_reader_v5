@@ -112,7 +112,7 @@
     </div>
 
     
-    <script src="thailand_story.js"></script>
+    <script src="super_simple_version_text.js"></script>
     <script>
       const parent = document.getElementById("highlightWordsParent");
       const parent2 = document.getElementById("highlightWordsParent2");
@@ -185,6 +185,7 @@
         });
 
         async function highlightWordsSequentially(wordSpans1, wordSpans2) {
+        const startTime = performance.now();
         // Remove any previous highlights
         wordSpans1.forEach(span => span.classList.remove("highlighted"));
         wordSpans2.forEach(span => span.classList.remove("highlighted"));
@@ -194,12 +195,40 @@
         console.log("wordSpans2.length: " + wordSpans2.length);
 
         for (let i = 0; i < wordSpans1.length && i < wordSpans2.length; i++) {
+            if (wordSpans1[i].classList.contains("ending1")) {
+              continue;
+            }
+            else {
           wordSpans1[i].classList.add("highlighted");
           wordSpans2[i].classList.add("highlighted");
+          if (i<wordSpans1.length-1 && wordSpans1[i+1].classList.contains("ending1")) {
+            wordSpans1[i+1].classList.add("highlighted");
+            wordSpans2[i+1].classList.add("highlighted");
+
+            if (i<wordSpans1.length-2 && wordSpans1[i+2].classList.contains("ending1")) {
+              wordSpans1[i+2].classList.add("highlighted");
+              wordSpans2[i+2].classList.add("highlighted");
+
+              if (i<wordSpans1.length-3 && wordSpans1[i+3].classList.contains("ending1")) {
+                wordSpans1[i+3].classList.add("highlighted");
+                wordSpans2[i+3].classList.add("highlighted");
+              }
+            }
+
+          }
           await new Promise(res => setTimeout(res, 300));
-          wordSpans1[i].classList.remove("highlighted");
+          /*wordSpans1[i].classList.remove("highlighted");
           wordSpans2[i].classList.remove("highlighted");
+          */
+         // New brutal approach, remove highlights for all spans for each iterated word. If slow,
+         //take former method into use considering possible multiple endings
+          wordSpans1.forEach(span => span.classList.remove("highlighted"));
+          wordSpans2.forEach(span => span.classList.remove("highlighted"));
+            }
         }
+        const endTime = performance.now();
+        const duration = endTime - startTime;
+        console.log(`Highlighting took ${duration.toFixed(2)} milliseconds`);
       }
 
       // Play button event listener
@@ -209,9 +238,17 @@
         // For example: text-to-speech, audio playback, etc.
         console.log("Play button clicked!");
         // You can add text-to-speech or audio playback logic here
-        const audio = new Audio("public/line0.mp3");
+        const audio = new Audio("public/chapter1.mp3");
         audio.play();
-      // Get all the word spans inside parent and parent2
+
+        startTimeAudio = audio.currentTime;
+
+        audio.addEventListener("ended", () => {
+        endTimeAudio = audio.currentTime;
+        const durationAudio = endTimeAudio - startTimeAudio;
+        console.log(`Audio finished, it took ${durationAudio.toFixed(2)} milliseconds`);
+        });
+            // Get all the word spans inside parent and parent2
       const wordSpans1 = parent.querySelectorAll(".highlight-span");
       const wordSpans2 = parent2.querySelectorAll(".highlight-span");
       console.log("wordSpans1.length in play function: " + wordSpans1.length);
