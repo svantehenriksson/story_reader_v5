@@ -67,26 +67,26 @@ This is Finland.`;
 
 
 
-const story1SpokenFinnish = `
-Luca on lentokentä-l.    
-Luca on väsyny.    
-Luca juo kahvi-i.    
-Kahvi on kallis-t.    
-Kahvi on vähän outo-o.    
-Mut kahvi auttaa.    
-Suomalai-set juo- tätä joka päivä?"    
-Luca ett-ii bussi-i.    
-Bussi tul-ee.    
-Kuljettaja ei puhu englanti-i.    
-Kuljettaja ei puhu mitää.    
-Luca sanoo: "Hei."    
-Kuljettaja ei sano mitää.    
-Ulkona sataa lun-ta.    
-Paljon lun-ta.    
-On kylmä.    
-Tosi kylmä.    
-Lumi on kaunis-t.    
-Luca hymyil-ee.    
+const storySpokenFinnish = `
+Luca on lentokentä -l. 
+Luca on väsyny. 
+Luca juo kahvi -i. 
+Kahvi on kallis -t. 
+Kahvi on vähän outo -o. 
+Mut kahvi auttaa. 
+Suomalai -set juo - tätä joka päivä?" 
+Luca ett -ii bussi -i. 
+Bussi tul -ee. 
+Kuljettaja ei puhu englanti -i. 
+Kuljettaja ei puhu mitää. 
+Luca sanoo: "Hei." 
+Kuljettaja ei sano mitää. 
+Ulkona sataa lun -ta. 
+Paljon lun -ta. 
+On kylmä. 
+Tosi kylmä. 
+Lumi on kaunis -t. 
+Luca hymyil -ee. 
 Tää on Suomi.`;
 
 const story2Finnish = `
@@ -486,13 +486,15 @@ function createWordArrays() {
   const highlightWords = storyFinnish.split(" ");
   const highlightWords2 = storyFakeEnglish.split(" ");
   const highlightWords3 = storyEnglish.split(" ");
+  const highlightWords4 = storySpokenFinnish.split(" ");
   
   return {
     highlightWords,
     highlightWords2,
-    highlightWords3
+    highlightWords3,
+    highlightWords4
   };
 }
 
 // Create the word arrays
-const { highlightWords, highlightWords2, highlightWords3 } = createWordArrays();
+const { highlightWords, highlightWords2, highlightWords3, highlightWords4 } = createWordArrays();

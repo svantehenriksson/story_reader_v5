@@ -102,6 +102,7 @@
     <div id="highlightWordsParent" class="highlight-words-container"></div>
     <div id="highlightWordsParent2" class="highlight-words-container"></div>
     <div id="highlightWordsParent3" class="highlight-words-container"></div>
+    <div id="highlightWordsParent4" class="highlight-words-container"></div>
 
     <div class="quiz-btn-container">
       <a class="quiz-button" href="super_simple_quiz.html">?? Quiz ??</a>
@@ -116,34 +117,46 @@
     <script src="words_and_start_times.js"></script>;
 
     <script>
+    console.log("highlightWords4: ", highlightWords4);
+    console.log("highlightWords: ", highlightWords);
+   
+
       const parent = document.getElementById("highlightWordsParent");
       const parent2 = document.getElementById("highlightWordsParent2");
       const parent3 = document.getElementById("highlightWordsParent3");
+      const parent4 = document.getElementById("highlightWordsParent4");
 
 
       highlightWords.forEach((word, idx) => {
         const word1 = document.createElement("span");
         const word2 = document.createElement("span");
         const word3 = document.createElement("span");
+        const word4 = document.createElement("span");
 
         word1.className = "highlight-span";
         word2.className = "highlight-span";
         word3.className = "highlight-span";
+        word4.className = "highlight-span";
         word1.textContent = word;
         word2.textContent = highlightWords2[idx];
+        word4.textContent = highlightWords4[idx];
         //wordDiv3.textContent = highlightWords3[idx];
 
           // Ending 1: starts with "-"
         if (word1.textContent.startsWith("-")) {
             word1.className += " ending1";
             word2.className += " ending1";
+            word4.className += " ending1";
             word1.textContent = word1.textContent.slice(1); // remove leading "-"
+            word4.textContent = word4.textContent.slice(1); // remove leading "-" also from spoken Finnish
         }
         // Ending 2: starts with "=" or "=="
         else if (word1.textContent.startsWith("==") || word1.textContent.startsWith("=")) {
             word1.className += " ending2";
             word2.className += " ending2";
             word1.textContent = word1.textContent.replace(/^=+/, ""); // remove one or two "="
+            word4.textContent = word4.textContent.replace(/^=+/, ""); // remove one or two "="
+
             // New imprvement tryout 11.12.2025:
             word2.textContent = word2.textContent.replace("=", "-"); // try to tidy up the English translation
         }
@@ -153,16 +166,19 @@
         word1.addEventListener("mouseenter", () => {
           word1.classList.add("highlighted");
           word2.classList.add("highlighted");
+          word4.classList.add("highlighted");
           //wordDiv3.classList.add("highlighted");
         });
         word1.addEventListener("mouseleave", () => {
           word1.classList.remove("highlighted");
           word2.classList.remove("highlighted");
+          word4.classList.remove("highlighted");
           //wordDiv3.classList.remove("highlighted");
         });
 
         parent.appendChild(word1);
         parent2.appendChild(word2);
+        parent4.appendChild(word4);
 
         // Add extra space if word1 is not an ending. DIDN'T WORK DUE TO FLEXBOX OR WHATEVER, 
         // DOING A SMALL "HACK" IN CSS INSTEAD
